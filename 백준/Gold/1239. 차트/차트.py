@@ -14,13 +14,10 @@ answer = 0
 
 def Check_Num(listVisit_Num):
     Count = 0
-
-    for i in range(len(listVisit_Num)):
-        if listVisit_Num[i] < 50:
-            for j in range(i + 1, len(listVisit_Num)):
-                if listVisit_Num[i] + 50 == listVisit_Num[j]:
-                    Count += 1
-
+    line_set = set(listVisit_Num) 
+    for pos in listVisit_Num:
+        if pos < 50 and (pos + 50) in line_set:
+            Count += 1
     return Count
 
 def dfs(listVisit_Num):
