@@ -28,7 +28,7 @@ def Union(a,b):
 for i in range(N):
     Cost = list(map(int,input().split()))
     for j in range(i + 1, N):
-            CheckMap.append([Cost[j],i,j])
+            CheckMap.append((Cost[j],i,j))
 
 
 
