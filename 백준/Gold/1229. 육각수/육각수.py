@@ -1,32 +1,38 @@
-INF = 10 ** 9
-d = [0, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 2] + [INF] * 1_000_000
+import sys
+from collections import deque
 
+input = sys.stdin.readline
 
-def get_hex(limit):  # limit 이하의 육각수 구하기
-    n = 1
-    current = 0
-    ans = []
-    while current <= limit:
-        current = n * (2 * n - 1)
-        ans.append(current)
-        n += 1
-    return ans[:-1]
-
-
-def solution():
+def solve():
     n = int(input())
-    if n < 13:
-        print(d[n])
+    hax = []
+    i = 1
+    while True:
+        h = i * (2 * i - 1)
+        if h > n: break
+        hax.append(h)
+        i += 1
+        
+    if n in hax:
+        print(1)
         return
 
-    hex = get_hex(n)
-    for i in range(13, n + 1):
-        min_val = INF
-        for h in hex:
-            if h > i: break
-            min_val = min(min_val, d[i - h])
-        d[i] = min_val + 1
-    print(d[n])
+    queue = deque([(h, 1) for h in hax])
+    visited = [False] * (n + 1)
+    for h in hax:
+        visited[h] = True
 
+    while queue:
+        curr, count = queue.popleft()
+        for h in hax:
+            next_val = curr + h
+            
+            if next_val == n:
+                print(count + 1)
+                return
+            
+            if next_val < n and not visited[next_val]:
+                visited[next_val] = True
+                queue.append((next_val, count + 1))
 
-solution()
+solve()
