@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 
 input = sys.stdin.readline
 
@@ -6,24 +7,26 @@ n, m = map(int, input().split())
 mission_list = list(map(int, input().split()))
 
 
-save = [i + 1 for i in range(n)]
+dq = deque(range(1, n + 1))
 
 all_count = 0
 
 for target in mission_list:
-    target_idx = save.index(target)
-    
-    left_dist = target_idx
-    right_dist = len(save) - target_idx
-    
-    if left_dist <= right_dist:
-        all_count += left_dist
-    else:
-        all_count += right_dist
-    
 
-    save = save[target_idx:] + save[:target_idx]
-    
-    save.pop(0)
+    while True:
+        if dq[0] == target:
+                dq.popleft()
+                break
+        else:
+            idx = dq.index(target)
+
+            if idx<=len(dq)//2:
+                dq.rotate(-1)
+            else:
+                dq.rotate(+1)
+
+            all_count+=1
+
+
 
 print(all_count)
